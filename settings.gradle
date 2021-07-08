@@ -1,0 +1,3 @@
+rootProject.name = "LLog"
+include ':app'
+include ':lib-log'
