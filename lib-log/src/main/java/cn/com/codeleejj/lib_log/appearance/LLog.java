@@ -87,7 +87,7 @@ public class LLog {
         for (ILogPrinter printer : printers.keySet()) {
             Integer allowLevel = printers.get(printer);
             if (allowLevel == null || allowLevel <= level) {
-                printer.print(mLogConfig, level, tag, content);
+                printer.print(level, tag, content);
             }
         }
     }

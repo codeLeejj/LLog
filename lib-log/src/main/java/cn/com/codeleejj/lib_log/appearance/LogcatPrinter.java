@@ -3,7 +3,6 @@ package cn.com.codeleejj.lib_log.appearance;
 import android.util.Log;
 
 import cn.com.codeleejj.lib_log.contract.ILogPrinter;
-import cn.com.codeleejj.lib_log.contract.LogConfig;
 
 /**
  * author:Lee
@@ -12,7 +11,7 @@ import cn.com.codeleejj.lib_log.contract.LogConfig;
  */
 public class LogcatPrinter implements ILogPrinter {
     @Override
-    public void print(LogConfig config, int level, String tag, String content) {
+    public void print( int level, String tag, String content) {
         Log.println(level, tag, content);
     }
 }

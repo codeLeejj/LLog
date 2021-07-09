@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.abtInitWithoutFile).setOnClickListener(v -> {
             LogcatPrinter logcatPrinter = new LogcatPrinter();
-            FilePrinter filePrinter = new FilePrinter(this);
             LLog.updateConfig(new LogConfig.ConfigBuilder(logcatPrinter, LogLevel.I).build());
         });
 

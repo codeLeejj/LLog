@@ -6,7 +6,7 @@ import cn.com.codeleejj.lib_log.contract.LogLevel;
 /**
  * author:Lee
  * date:2021/7/8
- * Describe: 负责输出内容的生成
+ * Describe: 负责输出内容的生成    ->    后期应该抽象化
  */
 public class LogFormat {
     public static String format(LogConfig config, @LogLevel.LEVEL int level, Object... objects) {
