@@ -1,5 +1,7 @@
 package cn.com.codeleejj.lib_log.appearance;
 
+import java.util.Map;
+
 import cn.com.codeleejj.lib_log.contract.ILogPrinter;
 import cn.com.codeleejj.lib_log.contract.LogConfig;
 import cn.com.codeleejj.lib_log.contract.LogLevel;
@@ -81,8 +83,12 @@ public class LLog {
      */
     private static void log(@LogLevel.LEVEL int level, String tag, Object... contents) {
         String content = LogFormat.format(mLogConfig, level, contents);
-        for (ILogPrinter printer : mLogConfig.getPrinters()) {
-            printer.print(mLogConfig, level, tag, content);
+        Map<ILogPrinter, Integer> printers = mLogConfig.getPrinters();
+        for (ILogPrinter printer : printers.keySet()) {
+            Integer allowLevel = printers.get(printer);
+            if (allowLevel == null || allowLevel <= level) {
+                printer.print(mLogConfig, level, tag, content);
+            }
         }
     }
 }

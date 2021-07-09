@@ -1,8 +1,11 @@
 package cn.com.codeleejj.lib_log.contract;
 
+import android.util.ArrayMap;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import cn.com.codeleejj.lib_log.appearance.LogcatPrinter;
 
@@ -34,7 +37,7 @@ public class LogConfig {
     /**
      * 日志输出者集合(可以自定义输出到控制台,)
      */
-    List<ILogPrinter> printers;
+    Map<ILogPrinter, Integer> printers;
 
     public static LogConfig getDefault() {
         return new ConfigBuilder().setEnable(true).closeFileOut().build();
@@ -60,11 +63,15 @@ public class LogConfig {
         this.out2FileLevel = out2FileLevel;
     }
 
-    public List<ILogPrinter> getPrinters() {
+    public Map<ILogPrinter, Integer> getPrinters() {
         return printers;
     }
 
-    public void setPrinters(List<ILogPrinter> printers) {
+    public int getOut2FileLevel() {
+        return out2FileLevel;
+    }
+
+    public void setPrinters(Map<ILogPrinter, Integer> printers) {
         this.printers = printers;
     }
 
@@ -85,34 +92,55 @@ public class LogConfig {
          * 输出到文件的最低等级
          */
         @LogLevel.LEVEL
-        private int out2FileLevel;
+        private int out2FileLevel = LogLevel.W;
         /**
          * 日志输出者集合(可以自定义输出到控制台,)
+         * Integer 记录这个输出者允许的最低日志等级
          */
-        List<ILogPrinter> printers;
+        Map<ILogPrinter, Integer> printers;
 
         /**
-         * 创建时会默认控制台输出
+         * 创建时会默认控制台输出,同时默认输出级别
          */
         public ConfigBuilder() {
-            printers = new ArrayList<>();
+            printers = new ArrayMap<>();
             LogcatPrinter logcatPrinter = new LogcatPrinter();
-            printers.add(logcatPrinter);
+            printers.put(logcatPrinter, LogLevel.V);
+        }
+
+        /**
+         * 创建时传入 自定义的日志输出者(默认输出级别) 集合
+         */
+        public ConfigBuilder(ILogPrinter... logPrinters) {
+            printers = new ArrayMap<>();
+            for (ILogPrinter printer : logPrinters) {
+                printers.put(printer, LogLevel.V);
+            }
         }
 
         /**
          * 创建时传入 自定义的日志输出者 集合
+         *
+         * @param logPrinter 自定义日志输出者
+         * @param level      输出者的最低级别
          */
-        public ConfigBuilder(ILogPrinter... logPrinters) {
-            printers = new ArrayList<>();
-            printers.addAll(Arrays.asList(logPrinters));
+        public ConfigBuilder(ILogPrinter logPrinter, @LogLevel.LEVEL int level) {
+            printers = new ArrayMap<>();
+            printers.put(logPrinter, level);
         }
 
         /**
          * 添加 自定义的日志输出者 集合
          */
-        public ConfigBuilder addIPrinter(ILogPrinter... logPrinters) {
-            printers.addAll(Arrays.asList(logPrinters));
+        public ConfigBuilder addIPrinters(ILogPrinter... logPrinters) {
+            for (ILogPrinter printer : logPrinters) {
+                printers.put(printer, LogLevel.V);
+            }
+            return this;
+        }
+
+        public ConfigBuilder addIPrinter(ILogPrinter logPrinter, @LogLevel.LEVEL int minLevel) {
+            printers.put(logPrinter, minLevel);
             return this;
         }
 
@@ -120,7 +148,9 @@ public class LogConfig {
          * 移除 自定义的日志输出者 集合
          */
         public ConfigBuilder removeIPrinter(ILogPrinter... logPrinters) {
-            printers.removeAll(Arrays.asList(logPrinters));
+            for (ILogPrinter printer : logPrinters) {
+                printers.remove(printer);
+            }
             return this;
         }
 
@@ -160,6 +190,7 @@ public class LogConfig {
             out2File = false;
             return this;
         }
+
 
         public LogConfig build() {
             LogConfig config = new LogConfig();
