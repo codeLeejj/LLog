@@ -31,12 +31,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.abtPrint).setOnClickListener(v -> {
-            LLog.v("v:" + new Date());
-            LLog.d("D:" + new Date());
-            LLog.i("I:" + new Date());
-            LLog.w("w:" + new Date());
-            LLog.e("e:" + new Date());
-            LLog.a("a:" + new Date());
+            LLog.v("V:" + date);
+            LLog.d("D:" + date);
+            LLog.i("I:" + date);
+            LLog.w("W:" + date);
+            LLog.e("E:" + date);
+            LLog.a("A:" + date);
         });
     }
+
+    String date = "早在 Java 2 中之前，Java 就提供了特设类。比如：Dictionary, Vector, Stack, 和 Properties 这些类用来存储和操作对象组。\n" +
+            "虽然这些类都非常有用，但是它们缺少一个核心的，统一的主题。由于这个原因，使用 Vector 类的方式和使用 Properties 类的方式有着很大不同。";
+
 }

@@ -130,7 +130,8 @@ public class FilePrinter implements ILogPrinter {
                     LogModel take = deque.take();
                     writer.append(take);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                } catch (IOException e) {
+                    writer.close();
                 }
             }
         }
@@ -142,6 +143,11 @@ public class FilePrinter implements ILogPrinter {
     private static class LogWriter {
         private File logFile;
         private BufferedWriter bufferedWriter;
+        DateFormat dateFormat;
+
+        public LogWriter() {
+            dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+        }
 
         public boolean prepare(@NonNull String filePath) {
             logFile = new File(filePath);
@@ -165,16 +171,14 @@ public class FilePrinter implements ILogPrinter {
             return true;
         }
 
-        public void append(LogModel log) {
-            try {
-                bufferedWriter.write(log.tag);
-                bufferedWriter.newLine();
-                bufferedWriter.write(log.log);
-                bufferedWriter.newLine();
-                bufferedWriter.flush();
-            } catch (IOException ignore) {
-
-            }
+        public void append(LogModel log) throws IOException {
+            bufferedWriter.write(dateFormat.format(new Date()));
+            bufferedWriter.write("           ");
+            bufferedWriter.write(log.tag);
+            bufferedWriter.newLine();
+            bufferedWriter.write(log.log);
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
         }
 
         public boolean close() {
