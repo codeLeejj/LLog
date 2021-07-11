@@ -39,6 +39,12 @@ public class LogConfig {
      */
     Map<ILogPrinter, Integer> printers;
 
+    /**
+     * 不建议直接创建
+     */
+    private LogConfig() {
+    }
+
     public static LogConfig getDefault() {
         return new ConfigBuilder().setEnable(true).closeFileOut().build();
     }
@@ -84,6 +90,7 @@ public class LogConfig {
          * 默认的tag
          */
         private String defaultTag = "LLOG";
+        private String defaultTimeFormat = "yyyy-MM-dd HH:mm:ss ";
         /**
          * 是否输出到文件
          */
@@ -190,7 +197,6 @@ public class LogConfig {
             out2File = false;
             return this;
         }
-
 
         public LogConfig build() {
             LogConfig config = new LogConfig();

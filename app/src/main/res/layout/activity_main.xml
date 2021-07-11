@@ -21,10 +21,17 @@
         app:layout_constraintTop_toBottomOf="@+id/abtInitWithFile" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/abtSuspensionLog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="开启悬浮日志"
+        app:layout_constraintTop_toBottomOf="@+id/abtInitWithoutFile" />
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/abtPrint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="打印日志"
-        app:layout_constraintTop_toBottomOf="@+id/abtInitWithoutFile" />
+        app:layout_constraintTop_toBottomOf="@+id/abtSuspensionLog" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

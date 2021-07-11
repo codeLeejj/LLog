@@ -22,6 +22,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import cn.com.codeleejj.lib_log.contract.ILogPrinter;
 import cn.com.codeleejj.lib_log.contract.LogLevel;
 import cn.com.codeleejj.lib_log.core.LogModel;
+import cn.com.codeleejj.lib_log.utils.LevelUtil;
 
 /**
  * author:Lee
@@ -45,10 +46,19 @@ public class FilePrinter implements ILogPrinter {
      */
     boolean isAvailability;
 
+    /**
+     * 创建日志的文件输出者
+     *
+     * @param context
+     */
     public FilePrinter(@NonNull Context context) {
         this(context, null);
     }
 
+    /**
+     * @param context
+     * @param dirPath
+     */
     public FilePrinter(@NonNull Context context, String dirPath) {
         initOutFile(context, dirPath);
         worker = new PrintWorker();
@@ -146,7 +156,7 @@ public class FilePrinter implements ILogPrinter {
         DateFormat dateFormat;
 
         public LogWriter() {
-            dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+            dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSSS", Locale.CHINA);
         }
 
         public boolean prepare(@NonNull String filePath) {
@@ -172,10 +182,14 @@ public class FilePrinter implements ILogPrinter {
         }
 
         public void append(LogModel log) throws IOException {
+            //附加信息
             bufferedWriter.write(dateFormat.format(new Date()));
-            bufferedWriter.write("           ");
-            bufferedWriter.write(log.tag);
+            bufferedWriter.write("  ");
+            bufferedWriter.write(LevelUtil.levelDescribe(log.level));
+            bufferedWriter.write("  ");
+            bufferedWriter.write(log.tag + ":");
             bufferedWriter.newLine();
+            //日志正文
             bufferedWriter.write(log.log);
             bufferedWriter.newLine();
             bufferedWriter.flush();
