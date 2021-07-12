@@ -34,4 +34,11 @@
         android:text="打印日志"
         app:layout_constraintTop_toBottomOf="@+id/abtSuspensionLog" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/abtOpenOtherActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="打开一个Activity"
+        app:layout_constraintTop_toBottomOf="@+id/abtPrint" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

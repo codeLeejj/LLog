@@ -183,14 +183,14 @@ public class FilePrinter implements ILogPrinter {
 
         public void append(LogModel log) throws IOException {
             //附加信息
-            bufferedWriter.write(dateFormat.format(new Date()));
+            bufferedWriter.write(dateFormat.format(log.getDate()));
             bufferedWriter.write("  ");
-            bufferedWriter.write(LevelUtil.levelDescribe(log.level));
+            bufferedWriter.write(LevelUtil.levelDescribe(log.getLevel()));
             bufferedWriter.write("  ");
-            bufferedWriter.write(log.tag + ":");
+            bufferedWriter.write(log.getTag() + ":");
             bufferedWriter.newLine();
             //日志正文
-            bufferedWriter.write(log.log);
+            bufferedWriter.write(log.getLog());
             bufferedWriter.newLine();
             bufferedWriter.flush();
         }

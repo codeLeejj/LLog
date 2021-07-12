@@ -1,7 +1,9 @@
 package cn.com.codeleejj.lib_log.appearance.suspensionLog;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
+import android.os.Handler;
 import android.provider.Settings;
 import android.view.View;
 import android.view.WindowManager;
@@ -18,6 +20,8 @@ public class SuspensionHelper {
     static SuspensionHelper helper;
     ISuspension suspension;
 
+    Handler handler;
+
     private SuspensionHelper(Context context) {
         mContext = context;
         if (windowManager == null)
@@ -28,6 +32,7 @@ public class SuspensionHelper {
     public static SuspensionHelper getInstance(Context context) {
         if (helper == null) {
             helper = new SuspensionHelper(context);
+            helper.handler = new Handler();
         } else {
             helper.mContext = context;
         }
@@ -56,15 +61,16 @@ public class SuspensionHelper {
         if (suspension == null) return;
         if (showingViews == null) {
             showingViews = new ArrayList<>();
-        } else if (showingViews.size() > 0) {
-            //当前是作为单个view 过度到多个,所以先简单处理
-            closeAll();
         }
         // 新建悬浮窗控件
         View showingView = suspension.getView();
         showingViews.add(showingView);
         // 将悬浮窗控件添加到WindowManager
-        windowManager.addView(showingView, suspension.getLayoutParams());
+        if (showingView.getParent() != null) {
+            windowManager.updateViewLayout(showingView, suspension.getLayoutParams());
+        } else {
+            windowManager.addView(showingView, suspension.getLayoutParams());
+        }
     }
 
     /**
@@ -84,7 +90,6 @@ public class SuspensionHelper {
             for (View showingView : showingViews) {
                 close(showingView);
             }
-            showingViews.clear();
         }
     }
 
@@ -92,6 +97,28 @@ public class SuspensionHelper {
      * 关闭窗口
      */
     public void close(View view) {
-        windowManager.removeView(view);
+        if (showingViews.contains(view)) {
+            showingViews.remove(view);
+            windowManager.removeViewImmediate(view);
+        }
+    }
+
+    public void updateAdjoin(Activity activity) {
+        if (suspension == null) return;
+        close(suspension.getView());
+        if (suspension instanceof SuspensionWrapper) {
+            handler.postDelayed(() -> {
+                WindowManager.LayoutParams layoutParams = suspension.getLayoutParams();
+                layoutParams.token = activity.getWindow().getDecorView().getWindowToken();
+                ((SuspensionWrapper) suspension).updateLayoutParams(layoutParams);
+
+                windowManager = activity.getWindowManager();
+
+                if (suspension.getView().getParent() != null) {
+                    windowManager.removeView(suspension.getView());
+                }
+                windowManager.addView(suspension.getView(), suspension.getLayoutParams());
+            }, 300);
+        }
     }
 }
