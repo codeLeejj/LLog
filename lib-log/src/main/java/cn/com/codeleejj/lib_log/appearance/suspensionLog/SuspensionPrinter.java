@@ -5,11 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
-import android.graphics.Rect;
-import android.os.Build;
-import android.util.Log;
 import android.view.Display;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,7 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -132,12 +127,9 @@ public class SuspensionPrinter implements ILogPrinter {
                     view.findViewById(R.id.tvClose).setOnClickListener(v -> {
                         dismissLogView();
                     });
-
                 }
                 return view;
             }
-
-
         };
     }
 
@@ -164,7 +156,7 @@ public class SuspensionPrinter implements ILogPrinter {
 
     @Override
     public void print(int level, String tag, String content, Date date) {
-        addLog(new LogModel(level, tag, content,date));
+        addLog(new LogModel(level, tag, content, date));
     }
 
     List<LogModel> logs;
@@ -196,8 +188,8 @@ public class SuspensionPrinter implements ILogPrinter {
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_log, parent, false);
             }
-            TextView tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-            TextView tvContent = (TextView) convertView.findViewById(R.id.tvContent);
+            TextView tvTitle = convertView.findViewById(R.id.tvTitle);
+            TextView tvContent = convertView.findViewById(R.id.tvContent);
 
             LogModel log = getItem(position);
             tvTitle.setText(dateFormat.format(log.getDate()) + "  " + LevelUtil.levelDescribe(log.getLevel()) + "  " + log.getTag() + ":");
@@ -239,11 +231,10 @@ public class SuspensionPrinter implements ILogPrinter {
                             int windowSize = suspensionHelper.getWindowWidth();
                             int centerX = windowSize / 2;
                             WindowManager.LayoutParams layoutParams2 = launcher.getLayoutParams();
-                            layoutParams2.x = (layoutParams2.x > 0) ? centerX : -centerX;
+                            layoutParams2.x = (layoutParams2.x > 0) ? centerX  :  - centerX;
                             layoutParams2.windowAnimations = android.R.anim.accelerate_interpolator;
 
                             suspensionHelper.getWindowManager().updateViewLayout(launcher.getView(), launcher.getLayoutParams());
-
                         }
                     }
                     break;

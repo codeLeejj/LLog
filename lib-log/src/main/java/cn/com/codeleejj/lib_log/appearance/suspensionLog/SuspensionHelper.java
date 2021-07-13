@@ -48,25 +48,16 @@ public class SuspensionHelper {
         return helper;
     }
 
+    List<View> showingViews;
+
     /**
      * 根据 {@suspension} 创建窗口
      *
      * @param suspension 悬浮窗的定义¬
      */
+
     public void show(ISuspension suspension) {
         this.suspension = suspension;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (Settings.canDrawOverlays(mContext)) {
-                create();
-            }
-        } else {
-            create();
-        }
-    }
-
-    List<View> showingViews;
-
-    private void create() {
         if (suspension == null) return;
         if (showingViews == null) {
             showingViews = new ArrayList<>();

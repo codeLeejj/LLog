@@ -79,9 +79,6 @@ public class FilePrinter implements ILogPrinter {
 
         //入队,等待被读取
         worker.deque.add(model);
-
-
-//        writer.append(tag + ":" + content);
     }
 
     /**
