@@ -2,15 +2,10 @@ package cn.com.codeLeejj.llog;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.Manifest;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.widget.Toast;
-
-import java.util.Date;
+import android.widget.CheckBox;
+import android.widget.RadioGroup;
 
 import cn.com.codeleejj.lib_log.appearance.FilePrinter;
 import cn.com.codeleejj.lib_log.appearance.LLog;
@@ -27,29 +22,38 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.abtInitWithFile).setOnClickListener(v -> {
-            LogcatPrinter logcatPrinter = new LogcatPrinter();
-            FilePrinter filePrinter = new FilePrinter(this);
-            LLog.updateConfig(new LogConfig.ConfigBuilder(logcatPrinter, LogLevel.I).addIPrinter(filePrinter, LogLevel.W).build());
-        });
-
-        findViewById(R.id.abtInitWithoutFile).setOnClickListener(v -> {
-            LogcatPrinter logcatPrinter = new LogcatPrinter();
-            LLog.updateConfig(new LogConfig.ConfigBuilder(logcatPrinter, LogLevel.I).build());
-        });
-
-        findViewById(R.id.abtSuspensionLog).setOnClickListener(v -> {
-            suspensionPrinter = new SuspensionPrinter(this);
-            LLog.updateConfig(new LogConfig.ConfigBuilder(suspensionPrinter, LogLevel.V).build());
-            suspensionPrinter.showLauncher();
+        RadioGroup rg = findViewById(R.id.rg);
+        CheckBox cbLogcat = findViewById(R.id.cbLogcat);
+        CheckBox cbFile = findViewById(R.id.cbFile);
+        CheckBox cbSuspension = findViewById(R.id.cbSuspension);
+        findViewById(R.id.abtCreate).setOnClickListener(v -> {
+            LogConfig.ConfigBuilder builder = new LogConfig.ConfigBuilder();
+            if (cbLogcat.isChecked()) {
+                LogcatPrinter logcatPrinter = new LogcatPrinter();
+                builder.addIPrinter(logcatPrinter, LogLevel.I);
+            }
+            if (cbFile.isChecked()) {
+                FilePrinter filePrinter = new FilePrinter(this);
+                builder.addIPrinter(filePrinter, LogLevel.W);
+            }
+            if (cbSuspension.isChecked()) {
+                suspensionPrinter = SuspensionPrinter.get(this);
+                builder.addIPrinter(suspensionPrinter, LogLevel.I);
+                suspensionPrinter.showLauncher();
+            } else {
+                if (suspensionPrinter != null) {
+                    suspensionPrinter.closeLauncher();
+                }
+            }
+            LLog.updateConfig(builder.build());
         });
 
         findViewById(R.id.abtPrint).setOnClickListener(v -> {
-//            LLog.v("V:" + date);
-//            LLog.d("D:" + date);
-//            LLog.i("I:" + date);
-//            LLog.w("W:" + date);
-//            LLog.e("E:" + date);
+//            LLog.v("V:" + data);
+//            LLog.d("D:" + data);
+//            LLog.i("I:" + data);
+//            LLog.w("W:" + data);
+            LLog.e("E:" + data);
             LLog.a("A:" + data);
         });
 

@@ -2,6 +2,8 @@ package cn.com.codeleejj.lib_log.appearance;
 
 import android.util.Log;
 
+import java.util.Date;
+
 import cn.com.codeleejj.lib_log.contract.ILogPrinter;
 
 /**
@@ -11,7 +13,7 @@ import cn.com.codeleejj.lib_log.contract.ILogPrinter;
  */
 public class LogcatPrinter implements ILogPrinter {
     @Override
-    public void print( int level, String tag, String content) {
+    public void print(int level, String tag, String content, Date date) {
         Log.println(level, tag, content);
     }
 }

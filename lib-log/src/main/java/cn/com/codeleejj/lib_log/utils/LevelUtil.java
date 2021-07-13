@@ -6,17 +6,17 @@ public class LevelUtil {
     public static String levelDescribe(@LogLevel.LEVEL int level) {
         switch (level) {
             case LogLevel.V:
-                return "VERBOSE";
+                return "verbose";
             case LogLevel.D:
-                return "DEBUG";
+                return "debug";
             case LogLevel.I:
-                return "INFO";
+                return "info";
             case LogLevel.W:
-                return "WARN";
+                return "warm";
             case LogLevel.E:
-                return "ERROR";
+                return "error";
             case LogLevel.A:
-                return "ASSERT";
+                return "assert";
         }
         return "";
     }

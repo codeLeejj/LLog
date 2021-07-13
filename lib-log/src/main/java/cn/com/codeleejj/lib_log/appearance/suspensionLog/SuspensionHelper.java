@@ -2,9 +2,12 @@ package cn.com.codeleejj.lib_log.appearance.suspensionLog;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
+import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -14,19 +17,25 @@ import java.util.List;
 import static android.content.Context.WINDOW_SERVICE;
 
 public class SuspensionHelper {
-
-    Context mContext;
-    WindowManager windowManager;
     static SuspensionHelper helper;
-    ISuspension suspension;
+    private Context mContext;
 
-    Handler handler;
+    private WindowManager windowManager;
+    private int windowWidth;
+
+    private ISuspension suspension;
+    private Handler handler;
 
     private SuspensionHelper(Context context) {
         mContext = context;
         if (windowManager == null)
             // 获取WindowManager服务
             windowManager = (WindowManager) mContext.getSystemService(WINDOW_SERVICE);
+        //没有这方法
+//        WindowMetrics metrics = windowManager.getCurrentWindowMetrics();
+//        windowBounds = metrics.getBounds();
+        Display display = windowManager.getDefaultDisplay();
+        windowWidth = display.getWidth();
     }
 
     public static SuspensionHelper getInstance(Context context) {
@@ -120,5 +129,13 @@ public class SuspensionHelper {
                 windowManager.addView(suspension.getView(), suspension.getLayoutParams());
             }, 300);
         }
+    }
+
+    public int getWindowWidth() {
+        return windowWidth;
+    }
+
+    public WindowManager getWindowManager() {
+        return windowManager;
     }
 }

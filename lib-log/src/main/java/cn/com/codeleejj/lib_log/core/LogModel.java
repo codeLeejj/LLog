@@ -14,11 +14,17 @@ public class LogModel {
     private Date date;
 
     public LogModel(int level, String tag, String log) {
+        this(level, tag, log, null);
+        date = new Date();
+    }
+
+    public LogModel(int level, String tag, String log, Date date) {
         this.level = level;
         this.tag = tag;
         this.log = log;
-        date = new Date();
+        this.date = date;
     }
+
 
     public int getLevel() {
         return level;

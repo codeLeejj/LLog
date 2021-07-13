@@ -6,33 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/abtInitWithFile"
+    <RadioGroup
+        android:id="@+id/rg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="初始化 - 文件输出"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <CheckBox
+            android:id="@+id/cbLogcat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="控制台输出" />
+
+        <CheckBox
+            android:id="@+id/cbFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="文件输出" />
+
+        <CheckBox
+            android:id="@+id/cbSuspension"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="悬浮窗输出" />
+    </RadioGroup>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/abtInitWithoutFile"
+        android:id="@+id/abtCreate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="初始化 - 排除文件输出"
-        app:layout_constraintTop_toBottomOf="@+id/abtInitWithFile" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/abtSuspensionLog"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="开启悬浮日志"
-        app:layout_constraintTop_toBottomOf="@+id/abtInitWithoutFile" />
+        android:text="创建"
+        app:layout_constraintTop_toBottomOf="@+id/rg" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/abtPrint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="打印日志"
-        app:layout_constraintTop_toBottomOf="@+id/abtSuspensionLog" />
+        app:layout_constraintTop_toBottomOf="@+id/abtCreate" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/abtOpenOtherActivity"

@@ -111,8 +111,12 @@ public class LogConfig {
          */
         public ConfigBuilder() {
             printers = new ArrayMap<>();
+        }
+
+        public ConfigBuilder defaultConfig() {
             LogcatPrinter logcatPrinter = new LogcatPrinter();
             printers.put(logcatPrinter, LogLevel.V);
+            return this;
         }
 
         /**

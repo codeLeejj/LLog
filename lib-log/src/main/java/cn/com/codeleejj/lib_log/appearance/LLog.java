@@ -1,5 +1,6 @@
 package cn.com.codeleejj.lib_log.appearance;
 
+import java.util.Date;
 import java.util.Map;
 
 import cn.com.codeleejj.lib_log.contract.ILogPrinter;
@@ -82,12 +83,13 @@ public class LLog {
      * @param contents 日志内容
      */
     private static void log(@LogLevel.LEVEL int level, String tag, Object... contents) {
+        Date date = new Date();
         String content = LogFormat.format(mLogConfig, level, contents);
         Map<ILogPrinter, Integer> printers = mLogConfig.getPrinters();
         for (ILogPrinter printer : printers.keySet()) {
             Integer allowLevel = printers.get(printer);
             if (allowLevel == null || allowLevel <= level) {
-                printer.print(level, tag, content);
+                printer.print(level, tag, content, date);
             }
         }
     }

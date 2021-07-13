@@ -68,11 +68,11 @@ public class FilePrinter implements ILogPrinter {
     }
 
     @Override
-    public void print(@LogLevel.LEVEL int level, String tag, String content) {
+    public void print(@LogLevel.LEVEL int level, String tag, String content, Date date) {
         if (!isAvailability) {
             return;
         }
-        LogModel model = new LogModel(level, tag, content);
+        LogModel model = new LogModel(level, tag, content, date);
         if (!worker.isRunning()) {
             worker.start();
         }
