@@ -65,7 +65,7 @@ public class SuspensionPrinter implements ILogPrinter {
     private SuspensionPrinter(@NonNull Activity activity, boolean autoBorder) {
         this.autoBorder = autoBorder;
         init(activity);
-        dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSSS", Locale.CHINA);
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.CHINA);
     }
 
     private void init(Activity activity) {

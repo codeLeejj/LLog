@@ -156,7 +156,7 @@ public class FilePrinter implements ILogPrinter {
         DateFormat dateFormat;
 
         public LogWriter() {
-            dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSSS", Locale.CHINA);
+            dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.CHINA);
         }
 
         public boolean prepare(@NonNull String filePath) {
